@@ -1,0 +1,52 @@
+{{$allplugins := "angelchest | drop2inventory | autoshulker | jukebox"}}
+{{$args := parseArgs 2 (joinStr " " "Usage: `-verifypurchase <@user> <" $allplugins ">`")
+    (carg "user" "User who bought the plugin")
+    (carg "string" "Name of the plugin bought")
+}}
+{{$premiumrole := 0}}
+{{$freerole := 0}}
+{{$buyerrole := 823904480412172288}}
+{{$pluginname := ""}}
+{{- /*
+	START PLUGINS
+*/ -}}
+{{if eq ($args.Get 1) "angelchest"}}
+{{$premiumrole = 799838124036325377}}
+{{$freerole = 733436777028649081}}
+{{$pluginname = "AngelChest Plus"}}
+{{end}}
+{{if eq ($args.Get 1) "drop2inventory"}}
+{{$premiumrole = 804040912854319124}}
+{{$freerole = 733436821580546059}}
+{{$pluginname = "Drop2Inventory Plus"}}
+{{end}}
+{{if eq ($args.Get 1) "jukebox"}}
+{{$premiumrole = 804432128216530964}}
+{{$pluginname = "JukeBoxPlus"}}
+{{end}}
+{{if eq ($args.Get 1) "autoshulker"}}
+{{$premiumrole = 817842750657265754}}
+{{$pluginname = "AutoShulker"}}
+{{end}}
+{{- /*
+	END PLUGINS
+*/ -}}
+{{if eq $premiumrole 0}}
+Unknown plugin. Valid values: {{$allplugins}}
+{{else}}
+{{$buyerid := (($args.Get 0).ID)}}
+{{$givenRoles := ""}}
+{{giveRoleID $buyerid $buyerrole}}
+{{$givenRoles = (joinStr "" $givenRoles "<@&" $buyerrole ">")}}
+{{if ne $freerole 0}}
+{{giveRoleID $buyerid $freerole}}
+{{$givenRoles = (joinStr "" $givenRoles "<@&" $freerole ">")}}
+{{end}}
+{{giveRoleID $buyerid $premiumrole}}
+{{$givenRoles = (joinStr "" $givenRoles "<@&" $premiumrole ">")}}
+{{ $title := (joinStr " " "Purchase of __" $pluginname "__ verified!")}}
+{{ $description := (joinStr "" "Hello <@" $buyerid ">, thank you very much for buying **" $pluginname "**!" "\n" "Your purchase has been verified by <@" .User.ID ">." "\n\n" "You have been given the following roles:\n" $givenRoles "\n\n" "You now have access to <#826934723875045416>. Some of my premium plugins also have dedicated channels, to which you have access now, too." "\n\n" "You can close this ticket using `-ticket close` if you don't have further questions. :slight_smile:")}}
+{{ $embed := cembed "title" $title "description" $description }}
+{{ sendMessage nil $embed }}
+{{end}}
+{{deleteTrigger 0}}
