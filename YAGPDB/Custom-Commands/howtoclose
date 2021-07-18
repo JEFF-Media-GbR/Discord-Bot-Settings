@@ -1,0 +1,4 @@
+{{$args := parseArgs 1 "Usage: `-howtoclose <@user>`"
+    (carg "user" "user to be mentioned")}}
+<@{{($args.Get 0).ID}}> You can close this ticket using `-ticket close` if you don't have any further questions! :slight_smile:
+{{deleteTrigger 0}}
