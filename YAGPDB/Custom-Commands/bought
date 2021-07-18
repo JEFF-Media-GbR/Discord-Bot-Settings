@@ -1,4 +1,4 @@
-{{$allplugins := "angelchest | drop2inventory | autoshulker | jukebox"}}
+{{$allplugins := "angelchest | drop2inventory | autoshulker | jukebox | replant"}}
 {{$args := parseArgs 2 (joinStr " " "Usage: `-verifypurchase <@user> <" $allplugins ">`")
     (carg "user" "User who bought the plugin")
     (carg "string" "Name of the plugin bought")
@@ -27,6 +27,10 @@
 {{if eq ($args.Get 1) "autoshulker"}}
 {{$premiumrole = 817842750657265754}}
 {{$pluginname = "AutoShulker"}}
+{{end}}
+{{if eq ($args.Get 1) "replant"}}
+{{$premiumrole = 864855375206285313}}
+{{$pluginname = "RePlant"}}
 {{end}}
 {{- /*
 	END PLUGINS
