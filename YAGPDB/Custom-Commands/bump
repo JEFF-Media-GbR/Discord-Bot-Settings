@@ -1,0 +1,12 @@
+{{$args := parseArgs 1 "Usage: `-bump <@user>`"
+    (carg "user" "user to be mentioned")}}
+{{ ($args.Get 0).Mention }}
+{{ $tbump := cembed
+"title" "Ticket info"
+"description" "Is this resolved? \nIf so, please use `-ticket close`\n\nIf there are further issues, please reply here within 7 days, otherwise we will consider this resolved and close ticket."
+"color" 16711680
+"footer" (sdict "text" (joinStr ""  "Suggested by " .User.Username ) "icon_url" ( .User.AvatarURL "512" ))
+"timestamp"  currentTime
+}}
+{{sendMessage nil $tbump}}
+{{deleteTrigger 0}}
